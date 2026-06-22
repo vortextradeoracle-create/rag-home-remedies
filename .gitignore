@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+
+vectorstore/
+*.faiss
+*.pkl
+
+.env
+
+.DS_Store
+Thumbs.db
