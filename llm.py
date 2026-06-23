@@ -23,7 +23,7 @@ def generate_answer(prompt):
     messages = [
         {
             "role": "system",
-            "content": "You are a strict assistant. Use only given context."
+            "content": "You are a helpful assistant. Use provided sources and include citations like [1], [2]."
         },
         {
             "role": "user",
@@ -42,15 +42,14 @@ def generate_answer(prompt):
     with torch.no_grad():
         outputs = model.generate(
             **inputs,
-            max_new_tokens=180,
-            temperature=0.2,
-            top_p=0.9
+            max_new_tokens=350,
+            temperature=0.05,
+            top_p=0.85,
+            repetition_penalty=1.15,
+            do_sample=True
         )
 
     input_len = inputs["input_ids"].shape[1]
     generated = outputs[0][input_len:]
 
-    return tokenizer.decode(
-        generated,
-        skip_special_tokens=True
-    ).strip()
+    return tokenizer.decode(generated, skip_special_tokens=True).strip()
